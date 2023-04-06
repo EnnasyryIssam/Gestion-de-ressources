@@ -1,0 +1,55 @@
+﻿
+@model final_project.Models.Panne
+@{
+    ViewBag.Title = "ConsulterPannes";
+    Layout = "~/Views/Shared/_FournisseurLayout.cshtml";
+
+}
+
+<div>
+    <h4>Liste les materiels en panne</h4>
+    &nbsp;
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Explication</th>
+                <th scope="col">Date d'apparition</th>
+                <th scope="col">Frequence</th>
+                <th scope="col">Ordre</th>
+                <th scope="col">Type Materielle</th>
+                <th scope="col">Constat</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (ViewData["ListP"] != null)
+            {
+                foreach (var item in (List<final_project.Models.Panne>)ViewData["listP"])
+                {
+                    <tr>
+                        <th scope="row">
+                            @item.Id
+                        </th>
+                        <td>@item.Explication</td>
+                        <td>@item.DateApparition</td>
+                        <td>@item.Frequence</td>
+                        <td>@item.Ordre</td>
+                        @if (@item.Ordre == "Défaut du système" || item.Ordre == "Défaut du logiciel utilitaire")
+                        {
+                            <td>Ordinateur</td>
+                        }
+                        else
+                        {
+                            <td>Imprimante</td>
+                        }
+
+                        <td>@item.Constat</td>
+
+                    </tr>
+                }
+            }
+
+        </tbody>
+    </table>
+</div>
+

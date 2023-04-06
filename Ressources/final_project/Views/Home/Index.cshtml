@@ -1,0 +1,64 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    @Styles.Render("~/Content/css")
+</head>
+<body>
+    <div class="context">
+        <div class="content">
+            <a href="/Responsable/login">
+                <input type="button"
+                       class="btn btn-light mypadd"
+                       style="outline: none"
+                       value="Responsable" />
+            </a>
+        </div>
+        <div class="content">
+            <a href="/Enseignant/Login">
+                <input type="button"
+                       class="btn btn-light mypadd"
+                       style="outline: none"
+                       value="Enseignant" />
+            </a>
+        </div>
+        <div class="content">
+            <a href="/Fournisseur/login">
+                <input type="button"
+                       class="btn btn-light mypadd"
+                       style="outline: none"
+                       value="Fournisseur" />
+            </a>
+        </div>
+        <div class="content">
+            <a href="/Technicien/login">
+                <input type="button"
+                       class="btn btn-light mypadd"
+                       style="outline: none"
+                       value="Technicien" />
+            </a>
+        </div>
+    </div>
+
+    <div class="area">
+        <ul class="circles">
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+        </ul>
+    </div>
+</body>
+</html>

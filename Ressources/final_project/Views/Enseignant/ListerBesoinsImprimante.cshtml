@@ -1,0 +1,66 @@
+﻿@model final_project.Models.Imprimante
+@{
+    ViewBag.Title = "ListerBesoinsImprimante";
+    Layout = "~/Views/Shared/_EnseignantLayout.cshtml";
+}
+
+<div>
+    <h4>Liste des besoins de type <strong>imprimante</strong></h4>
+    &nbsp;
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Marque</th>
+                <th scope="col">Resolution</th>
+                <th scope="col">Vitesse</th>
+                <th scope="col">Etat</th>
+                <th scope="col">Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in (List<final_project.Models.Imprimante>)ViewData["listI"])
+            {
+            <tr>
+                <th scope="row">
+                    @item.Id
+                </th>
+                <td>@item.Marque</td>
+                <td>@item.Vitesse</td>
+                <td>@item.Resolution</td>
+                @if (item.Etat == "En attente")
+                {
+                    <td><span class="badge badge-pill badge-warning" style="padding:9px 15px">@item.Etat</span></td>
+                }
+                @if (item.Etat == "Accepté")
+                {
+                    <td><span class="badge badge-pill badge-success" style="padding:9px 15px">@item.Etat</span></td>
+                }
+                @if (item.Etat == "Refusé")
+                {
+                    <td><span class="badge badge-pill badge-danger" style="padding:9px 15px">@item.Etat</span></td>
+                }
+                @if (item.Etat == "En cours")
+                {
+                    <td><span class="badge badge-pill badge-info" style="padding:9px 15px">@item.Etat</span></td>
+                }
+                @if (item.Etat == "Affecté" || item.Etat == "Livré")
+                {
+                    <td><span class="badge badge-pill badge-primary" style="padding:9px 15px">@item.Etat</span></td>
+                }
+                @if (item.Etat == "En attente")
+                {
+                    <td>
+                        @using (Html.BeginForm("Listerbesoinsimprimante", "Enseignant", new { Id = item.Id }, FormMethod.Post))
+                        {
+                        <button type="submit" class="btn btn-light"><i class="fas fa-trash-alt text-danger"></i></button>
+                        }
+
+                    </td>
+                        }
+                  </tr>
+                }
+        </tbody>
+    </table>
+</div>
+

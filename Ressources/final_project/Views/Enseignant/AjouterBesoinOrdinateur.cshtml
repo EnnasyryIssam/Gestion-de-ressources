@@ -1,0 +1,90 @@
+﻿@model final_project.Models.Ordinateur
+
+@{
+    ViewBag.Title = "AjouterBesoinOrdinateur";
+    Layout = "~/Views/Shared/_EnseignantLayout.cshtml";
+}
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+<div class="form-horizontal">
+    <h4>Ajouter besoin de type <strong>ordinateur</strong></h4>
+    <hr />
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+    <div class="form-group">
+        <label class="control-label">Marque</label>
+        <div>
+            @Html.EditorFor(model => model.Marque, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Marque, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="control-label">CPU</label>
+        <div>
+            @Html.EditorFor(model => model.Cpu, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Cpu, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="control-label">RAM</label>
+        <div>
+            @Html.EditorFor(model => model.Ram, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Ram, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="control-label">Disque dur</label>
+        <div>
+            @Html.EditorFor(model => model.Disquedur, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Disquedur, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="control-label">Ecran</label>
+        <div>
+            @Html.EditorFor(model => model.Ecran, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Ecran, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-offset-2">
+            <input type="submit" value="Ajouter à mes besoins" class="btn btn-primary" />
+        </div>
+    </div>
+
+    @if (ViewBag.Error == false)
+    {
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            votre besoin a été ajouté <strong>avec success</strong>.
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    }
+    else if (ViewBag.Error == true)
+    {
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            une erreur s'est produite lors du traitement de cette demande.
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    }
+
+</div>
+}
+
+<script>
+    $(document).ready(function () {
+        document.getElementsByTagName("form").reset();
+
+    });
+</script>

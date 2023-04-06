@@ -1,0 +1,264 @@
+﻿@model final_project.Models.Panne
+
+@{
+    ViewBag.Title = "DeclarerPanneOrdinateur";
+    Layout = "~/Views/Shared/_EnseignantLayout.cshtml";
+}
+
+    <h6>Les resources de type <strong>ordinateur</strong></h6>
+    <table class="table" style="border:1px solid #ddd">
+        <thead>
+            <tr>
+                <th style="width:60px" scope="col">ID</th>
+                <th scope="col">Code</th>
+                <th scope="col">Date de livraison</th>
+                <th scope="col">Durée de garantie</th>
+                <th scope="col">Marque</th>
+                <th scope="col">CPU</th>
+                <th scope="col">RAM</th>
+                <th scope="col">Disque dur</th>
+                <th scope="col">Ecran</th>
+                <th scope="col">Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (ViewData["listOL"] != null)
+            {
+                foreach (var item in (List<final_project.Models.Ordinateur>)ViewData["listOL"])
+                {
+            <tr>
+                <th scope="row" style="width:60px">@item.Id</th>
+                <td>@item.Code</td>
+                <td>@item.Datelivraison</td>
+                <td>@item.Dureegarantie</td>
+                <td>@item.Marque</td>
+                <td>@item.Cpu</td>
+                <td>@item.Ram</td>
+                <td>@item.Disquedur</td>
+                <td>@item.Ecran</td>
+                @if (item.Enpanne)
+                {
+                    <td><span class="badge badge-pill badge-danger" style="padding:9px 15px">En panne</span></td>
+                }
+                else {
+                    <td style="display:flex; align-items:center">
+                        <button type="button" id="btn_affecter1" onclick="passData1(@item.Id)" class="btn btn-warning" data-toggle="modal" data-target="#modalAffecter1">Déclarer panne</button>
+                    </td>
+                }
+
+            </tr>
+                }
+            }
+
+        </tbody>
+    </table>
+
+    <h6 style="margin-top:45px">Les resources de type <strong>imprimante</strong></h6>
+    <table class="table" style="border:1px solid #ddd">
+        <thead>
+            <tr>
+                <th style="width:60px" scope="col">ID</th>
+                <th scope="col">Code</th>
+                <th scope="col">Date de livraison</th>
+                <th scope="col">Durée de garantie</th>
+                <th scope="col">Marque</th>
+                <th scope="col">Vitesse</th>
+                <th scope="col">Resolution</th>
+                <th scope="col">Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (ViewData["listIL"] != null)
+            {
+                foreach (var item in (List<final_project.Models.Imprimante>)ViewData["listIL"])
+                {
+            <tr>
+                <th scope="row" style="width:60px">@item.Id</th>
+                <td>@item.Code</td>
+                <td>@item.Datelivraison</td>
+                <td>@item.Dureegarantie</td>
+                <td>@item.Marque</td>
+                <td>@item.Vitesse</td>
+                <td>@item.Resolution</td>
+                @if (item.Enpanne)
+                {
+                    <td><span class="badge badge-pill badge-danger" style="padding:9px 15px">En panne</span></td>
+                }
+                else
+                {
+                    <td style="display:flex; align-items:center">
+                        <button type="button" id="btn_affecter2" onclick="passData2(@item.Id)" class="btn btn-warning" data-toggle="modal" data-target="#modalAffecter2">Déclarer panne</button>
+                    </td>
+                }
+            </tr>
+                }
+            }
+
+        </tbody>
+    </table>
+
+
+<!-- Modal -->
+<div class="modal fade" id="modalAffecter1" tabindex="-1" role="dialog" aria-hidden="true"
+     style="margin-top:60px">
+    <div class="modal-dialog" role="document">
+        @using (Html.BeginForm())
+        {
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Déclarer une panne de type <strong>ordinateur</strong></h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="border:none; outline:none">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-horizontal">
+                        @Html.TextBoxFor(model => model.Materielle.Id, new { @class = "form-control hidden", @id = "idInput1" })
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Explication, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.TextAreaFor(model => model.Explication, new { rows = 4, @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.Explication, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.DateApparition, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.TextBoxFor(model => model.DateApparition, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.DateApparition, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Frequence, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                <div>
+                                    @Html.DropDownListFor(model => model.Frequence, new SelectList(new List<SelectListItem>
+                                      {
+                                      new SelectListItem { Selected = true, Text = "Rare", Value = "Rare"},
+                                      new SelectListItem { Selected = false, Text = "Fréquente", Value = "Fréquente"},
+                                      new SelectListItem { Selected = false, Text = "Permanente", Value = "Permanente"},
+                                      }, "Value", "Text", 1), new { @class = "form-control" })
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Ordre, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.DropDownListFor(model => model.Ordre, new SelectList(new List<SelectListItem>
+                                        {
+                                        new SelectListItem { Selected = true, Text = "Materiel", Value = "Materiel"},
+                                        new SelectListItem { Selected = false, Text = "Défaut du système", Value = "Défaut du système"},
+                                        new SelectListItem { Selected = false, Text = "Défaut d'un logiciel utilitaire", Value = "Défaut du logiciel utilitaire"},
+                                        }, "Value", "Text", 1), new { @class = "form-control" })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+                    <button type="submit" class="btn btn-primary">Valider</button>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+<div class="modal fade" id="modalAffecter2" tabindex="-1" role="dialog" aria-hidden="true"
+     style="margin-top:60px">
+    <div class="modal-dialog" role="document">
+        @using (Html.BeginForm())
+        {
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Déclarer une panne de type <strong>imprimante</strong></h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="border:none; outline:none">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+
+                    <div class="form-horizontal">
+                        @Html.TextBoxFor(model => model.Materielle.Id, new { @class = "form-control hidden", @id="idInput2" })
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Explication, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.TextAreaFor(model => model.Explication, new { rows = 4, @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.Explication, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.DateApparition, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.TextBoxFor(model => model.DateApparition, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.DateApparition, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Frequence, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                <div>
+                                    @Html.DropDownListFor(model => model.Frequence, new SelectList(new List<SelectListItem>
+                                      {
+                                      new SelectListItem { Selected = true, Text = "Rare", Value = "Rare"},
+                                      new SelectListItem { Selected = false, Text = "Fréquente", Value = "Fréquente"},
+                                      new SelectListItem { Selected = false, Text = "Permanente", Value = "Permanente"},
+                                      }, "Value", "Text", 1), new { @class = "form-control" })
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Ordre, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                <div>
+                                    @Html.DropDownListFor(model => model.Ordre, new SelectList(new List<SelectListItem>
+                                        {
+                                        new SelectListItem { Selected = true, Text = "Materiel", Value = "Materiel"},
+                                        }, "Value", "Text", 1), new { @class = "form-control" })
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group" style="display:none" id="ordre_logiciel">
+                            <label style="padding:6px 16px">Genre de panne logiciel</label>
+                            <div class="col-md-10">
+                                <select id="panne_logiciel" class="form-control">
+                                    <option selected disabled>Genre de panne logiciel</option>
+                                    <option>Défaut du système</option>
+                                    <option>Défaut d'un logiciel utilitaire</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+                    <button type="submit" class="btn btn-primary">Valider</button>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+
+<style>
+    .hidden {
+        display: none;
+    }
+</style>
+
+<script>
+    function passData1(value) {
+        $("#idInput1").val(value)
+    }
+    function passData2(value) {
+        $("#idInput2").val(value)
+    }
+</script>

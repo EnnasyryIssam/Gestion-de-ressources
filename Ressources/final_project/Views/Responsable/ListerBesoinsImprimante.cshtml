@@ -1,0 +1,62 @@
+﻿@model final_project.Models.Imprimante
+
+@{
+    ViewBag.Title = "ListerRessourcesImprimante";
+    Layout = "~/Views/Shared/_ResponsableLayout.cshtml";
+}
+
+<div class="container-fluid">
+    <h4>Liste des besoins de type <strong>imprimante</strong></h4>
+    &nbsp;
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Enseignant</th>
+                <th scope="col">Marque</th>
+                <th scope="col">Vitesse</th>
+                <th scope="col">Resolution</th>
+                <th scope="col">Etat</th>
+                <th scope="col">Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in (List<final_project.Models.Imprimante>)ViewData["listI"])
+            {
+                if (item.Etat != "En cours" && item.Etat != "Livré" && item.Etat != "Affecté")
+                {
+                    <tr>
+                        <th scope="row">@item.Id</th>
+                        <th scope="row">@item.Enseignant.Nom</th>
+                        <td>@item.Marque</td>
+                        <td>@item.Vitesse</td>
+                        <td>@item.Resolution</td>
+                        @if (item.Etat == "En attente")
+                        {
+                            <td><span class="badge badge-pill badge-warning" style="padding:9px 15px">@item.Etat</span></td>
+                        }
+                        @if (item.Etat == "Accepté")
+                        {
+                            <td><span class="badge badge-pill badge-success" style="padding:9px 15px">@item.Etat</span></td>
+                        }
+                        @if (item.Etat == "Refusé")
+                        {
+                            <td><span class="badge badge-pill badge-danger" style="padding:9px 15px">@item.Etat</span></td>
+                        }
+                        <td style="display:flex;align-items:center">
+                            @using (Html.BeginForm("ListerBesoinsImprimante", "Responsable", new { Id = item.Id, T = "a" }, FormMethod.Post))
+                            {
+                                <button type="submit" class="btn btn-success">Accepter</button>}
+                            &nbsp;&nbsp;
+                            @using (Html.BeginForm("ListerBesoinsImprimante", "Responsable", new { Id = item.Id, T = "r" }, FormMethod.Post))
+                            {
+                                <button type="submit" class="btn btn-danger">Refuser</button>}
+
+                        </td>
+
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+</div>

@@ -1,0 +1,177 @@
+﻿@model final_project.Models.Enseignant
+
+@{
+    ViewBag.Title = "Register | Enseignant";
+}
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="signup">
+        <div class="container1">
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            <div class="form">
+                <p class="login_text1">Bienvenue</p>
+                <p class="login_text2">
+                    Donnez-nous certaines de vos informations pour accéder à
+                    l'application
+                </p>
+                <div class="form-row">
+                    <div class="form-group col-md-12">
+                        <label class="label">Nom Complet</label>
+                        @Html.EditorFor(model => model.Nom, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Nom, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group col-md-12">
+                        <label class="label">Laboratoire</label>
+                        @Html.EditorFor(model => model.Laboratoire, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Laboratoire, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-12">
+                        <label class="label">Departement</label>
+                        @Html.DropDownListFor(model => model.Departement.Id, new SelectList((List<final_project.Models.Departement>)ViewData["listD"],
+                            "Id", "Nom"), null, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.Departement, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-12">
+                        <label class="label">Adresse email</label>
+                        @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-12">
+                        <label class="label">Mot de passe</label>
+                        @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-control", @type = "password" } })
+                        @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-12" style="display:flex">
+
+                        <div class="checkbox">
+                            @Html.EditorFor(model => model.IsChef)
+                            @Html.ValidationMessageFor(model => model.IsChef, "", new { @class = "text-danger" })
+                        </div>
+                        <label class="label" style="margin-left:10px">Vous êtes un chef ?</label>
+                    </div>
+                </div>
+
+                <div class="btn_container">
+                    <button type="submit" class="btn btn-primary login_btn" id="btn2">
+                        S'inscrire
+                    </button>
+                </div>
+                <p class="login_text3">
+                    Vous avez déjà un compte ?
+                    <span><a href="~/Enseignant/Login">Se connecter</a></span>
+                </p>
+            </div>
+        </div>
+    </div>
+}
+
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+    }
+
+    .signup {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        background-color: #4e54c8;
+    }
+
+    .container1 {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 75vh;
+        background-color: #fff;
+        width: 31%;
+        border-radius: 10px;
+    }
+
+    .form {
+        width: 85%;
+        min-height: 90%;
+    }
+
+    .input {
+        width: 100%;
+        border: 1px solid #99d6ff;
+        margin-top: 5px
+    }
+
+    .login_text1 {
+        font-size: 36px;
+        color: #3399ff;
+        margin-bottom: 5px;
+        font-weight: 500;
+        text-align: center
+    }
+
+    .login_text2 {
+        font-size: 13px;
+        color: #969696;
+        margin-bottom: 20px;
+        text-align: center
+    }
+
+    .form-check-label {
+        color: #777777;
+    }
+
+    .login_text3 {
+        color: #777777;
+        text-align: center;
+    }
+
+    span {
+        color: #ae00b4;
+    }
+
+    a {
+        text-decoration: none;
+        cursor: pointer;
+    }
+
+    .label {
+        color: #777777;
+        font-weight: 600;
+        font-size: 15px;
+    }
+
+
+    .btn_container {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .login_btn {
+        width: 50%;
+        margin-bottom: 15px;
+        padding: 10px
+    }
+
+    .form-row {
+        margin-bottom: -8px
+    }
+</style>
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

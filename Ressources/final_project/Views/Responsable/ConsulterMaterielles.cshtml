@@ -1,0 +1,116 @@
+﻿@model final_project.Models.Materielle
+
+@{
+    ViewBag.Title = "Ajouter Appel d'Offre";
+    Layout = "~/Views/Shared/_ResponsableLayout.cshtml";
+}
+
+<div class="container-fluid">
+    <h6>Les besoins de type <strong>ordinateur</strong></h6>
+    <table class="table" style="border:1px solid #ddd">
+        <thead>
+            <tr>
+                <th style="width:60px" scope="col">ID</th>
+                <th scope="col">Enseignant</th>
+                <th scope="col">Code</th>
+                <th scope="col">Date de livraison</th>
+                <th scope="col">Durée de garantie</th>
+                <th scope="col">Marque</th>
+                <th scope="col">CPU</th>
+                <th scope="col">RAM</th>
+                <th scope="col">Disque dur</th>
+                <th scope="col">Ecran</th>
+                <th scope="col">Etat</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (ViewData["listOL"] != null)
+            {
+                foreach (var item in (List<final_project.Models.Ordinateur>)ViewData["listOL"])
+                {
+                    <tr>
+                        <th scope="row" style="width:60px">@item.Id</th>
+                        <th scope="row">@item.Enseignant.Nom</th>
+                        <td>@item.Code</td>
+                        <td>@item.Datelivraison</td>
+                        <td>@item.Dureegarantie</td>
+                        <td>@item.Marque</td>
+                        <td>@item.Cpu</td>
+                        <td>@item.Ram</td>
+                        <td>@item.Disquedur</td>
+                        <td>@item.Ecran</td>
+                        <td><span class="badge badge-pill badge-primary" style="padding:9px 15px">@item.Etat</span></td>
+                    </tr>
+                }
+            }
+
+        </tbody>
+    </table>
+
+    <h6 style="margin-top:45px">Les besoins de type <strong>imprimante</strong></h6>
+    <table class="table" style="border:1px solid #ddd">
+        <thead>
+            <tr>
+                <th style="width:60px" scope="col">ID</th>
+                <th scope="col">Enseignant</th>
+                <th scope="col">Code</th>
+                <th scope="col">Date de livraison</th>
+                <th scope="col">Durée de garantie</th>
+                <th scope="col">Marque</th>
+                <th scope="col">Vitesse</th>
+                <th scope="col">Resolution</th>
+                <th scope="col">Etat</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (ViewData["listIL"] != null)
+            {
+                foreach (var item in (List<final_project.Models.Imprimante>)ViewData["listIL"])
+                {
+                    <tr>
+                        <th scope="row" style="width:60px">@item.Id</th>
+                        <th scope="row">@item.Enseignant.Nom</th>
+                        <td>@item.Code</td>
+                        <td>@item.Datelivraison</td>
+                        <td>@item.Dureegarantie</td>
+                        <td>@item.Marque</td>
+                        <td>@item.Vitesse</td>
+                        <td>@item.Resolution</td>
+                        <td><span class="badge badge-pill badge-primary" style="padding:9px 15px">@item.Etat</span></td>
+                    </tr>
+                }
+            }
+
+        </tbody>
+    </table>
+</div>
+
+
+<style>
+    .hidden {
+        display: none;
+    }
+
+    h4 {
+        margin-bottom: 20px
+    }
+
+    tbody {
+        display: block;
+        overflow: auto;
+        overflow-y: scroll;
+        max-height: 400px
+    }
+
+        thead, tbody tr {
+            display: table;
+            width: 100%;
+            table-layout: fixed; /* even columns width , fix width of table too*/
+        }
+</style>
+
+<script>
+    function passData(value) {
+        $("#idInput").val(value);
+    }
+</script>

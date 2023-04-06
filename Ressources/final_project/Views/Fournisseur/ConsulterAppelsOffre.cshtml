@@ -1,0 +1,213 @@
+﻿@model final_project.Models.ContreOffre
+
+@{
+    ViewBag.Title = "ConsulterAppelsOffre";
+    Layout = "~/Views/Shared/_FournisseurLayout.cshtml";
+}
+
+
+<div class="right" style="width:100%">
+    <h2 style="margin-bottom:20px">Lister les offres</h2>
+    <div class="container" style="width: 95%; margin-left: 2%">
+        @if (ViewData["listAO"] != null)
+        {
+            foreach (var item in (List<final_project.Models.AppelOffre>)ViewData["listAO"])
+            {
+                <div class="single_offre">
+                    <div class="header" style="background-color: #fff; color: #000; display:flex; justify-content:space-between;">
+                        <table class="table" style="border:1px solid #808080">
+                            <thead>
+                                <tr>
+                                    <th scope="col">ID</th>
+                                    <th scope="col">&nbsp;</th>
+                                    <th scope="col">&nbsp;</th>
+                                    <th scope="col">&nbsp;</th>
+                                    <th scope="col">&nbsp;</th>
+                                    <th scope="col">Etat</th>
+                                    <th scope="col">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <th scope="row">@item.Id</th>
+                                    <th>&nbsp;</th>
+                                    <td>&nbsp;</td>
+                                    <td>&nbsp;</td>
+                                    <td>&nbsp;</td>
+                                    @if (item.Pris)
+                                    {
+                                        <td><span class="badge badge-pill badge-success" style="padding:9px 15px">Déjà pris</span></td>
+                                    }
+                                    @if (!item.Pris)
+                                    {
+                                        <td><span class="badge badge-pill badge-warning" style="padding:9px 15px">Pas encore pris</span></td>
+                                    }
+                                    <td>
+                                        <i class="fas fa-chevron-down" id="@("icon1" + item.Id)" onclick="toggle(@item.Id)" style="cursor:pointer; display: flex; align-items: center"></i>
+                                        <i class="fas fa-chevron-up" id="@("icon2" + item.Id)" onclick="toggle(@item.Id)" style="cursor:pointer; display:none; align-items: center; margin-top: 3px"></i>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                    </div>
+                    <div id="@("div" + item.Id)" class="divhidden" style="display:none; background-color:azure; padding: 15px; border-right: 1px solid #ccc; border-left: 1px solid #ccc; border-bottom: 2px solid #ccc;">
+                        <h5>Les ordinateurs</h5>
+                        <table class="table" style="border:1px solid #808080">
+                            <thead>
+                                <tr>
+                                    <th scope="col">ID</th>
+                                    <th scope="col">Enseignant</th>
+                                    <th scope="col">Marque</th>
+                                    <th scope="col">CPU</th>
+                                    <th scope="col">RAM</th>
+                                    <th scope="col">Disque dur</th>
+                                    <th scope="col">Ecran</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var itemO in (List<final_project.Models.Ordinateur>)item.ListO)
+                                {
+                                    <tr>
+                                        <th scope="row">@itemO.Id</th>
+                                        <th scope="row">@itemO.Enseignant.Nom</th>
+                                        <td>@itemO.Marque</td>
+                                        <td>@itemO.Cpu</td>
+                                        <td>@itemO.Ram</td>
+                                        <td>@itemO.Disquedur</td>
+                                        <td>@itemO.Ecran</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                        <h5>Les imprimantes</h5>
+                        <table class="table" style="border:1px solid #808080">
+                            <thead>
+                                <tr>
+                                    <th scope="col">ID</th>
+                                    <th scope="col">Enseignant</th>
+                                    <th scope="col">Marque</th>
+                                    <th scope="col">Vitesse</th>
+                                    <th scope="col">Resolution</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var itemI in (List<final_project.Models.Imprimante>)item.ListI)
+                                {
+                                    <tr>
+                                        <th scope="row">@itemI.Id</th>
+                                        <th scope="row">@itemI.Enseignant.Nom</th>
+                                        <td>@itemI.Marque</td>
+                                        <td>@itemI.Vitesse</td>
+                                        <td>@itemI.Resolution</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+
+                        <div style="display:flex; justify-content:space-between">
+                            <h5>Vos propositions</h5>
+                            @if (!item.Pris)
+                            {
+                                <button class="btn btn-info" style="padding:-5px;margin-bottom:20px" data-toggle="modal" onclick="passValue(@item.Id)" data-target="#modalProposition">Nouvelle proposition</button>
+                            }
+                        </div>
+                        <table class="table" style="border:1px solid #808080">
+                            <thead>
+                                <tr>
+                                    <th scope="col">ID</th>
+                                    <th scope="col">Montant</th>
+                                    <th scope="col">Statut</th>
+                                    <th scope="col">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var itemCO in (List<final_project.Models.ContreOffre>)item.ListCO)
+                                {
+                                    <tr>
+                                        <th scope="row">@itemCO.Id</th>
+                                        <td>@(itemCO.Montant + " DHS")</td>
+                                        @if (itemCO.Statut == "En attente")
+                                        {
+                                            <td><span class="badge badge-pill badge-warning" style="padding:9px 15px">@itemCO.Statut</span></td>
+                                        }
+                                        @if (itemCO.Statut == "Accepté")
+                                        {
+                                            <td><span class="badge badge-pill badge-success" style="padding:9px 15px">@itemCO.Statut</span></td>
+                                        }
+                                        @if (itemCO.Statut == "Refusé")
+                                        {
+                                            <td><span class="badge badge-pill badge-danger" style="padding:9px 15px">@itemCO.Statut</span></td>
+                                        }
+                                        @if (itemCO.Statut == "En attente")
+                                        {
+                                            <td style="display:flex;align-items:center">
+                                                @using (Html.BeginForm("ConsulterAppelsOffre", "Fournisseur", new { IdCO = itemCO.Id }, FormMethod.Post))
+                                                {
+                                                    <button type="submit" class="btn btn-light"><i class="fas fa-trash-alt text-danger"></i></button>
+                                                }
+                                            </td>
+                                        }
+
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+
+                    </div>
+                </div>
+            }
+        }
+
+
+    </div>
+
+    <!-- Modal Proposition -->
+    <div class="modal fade" id="modalProposition" tabindex="-1" role="dialog" aria-hidden="true"
+         style="margin-top:60px">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Enter votre proposition en DH</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="border:none; outline:none">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                @using (Html.BeginForm())
+                {
+                    <div class="modal-body">
+                        <div class="form-group col-md-12">
+                            <label for="proposition">Proposition</label>
+                            @Html.EditorFor(model => model.Montant, new { htmlAttributes = new { @class = "form-control input" } })
+                            @Html.EditorFor(model => model.Appeloffre.Id, new { htmlAttributes = new { @class = "form-control input hidden", @id = "idInput" } })
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+                        <button type="submit" class="btn btn-primary">Valider</button>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<style>
+    .hidden {
+        display: none;
+    }
+</style>
+
+
+<script>
+    function toggle(elem) {
+        $("#icon1" + elem).toggle();
+        $("#icon2" + elem).toggle();
+        $("#div" + elem).toggle();
+    }
+
+    function passValue(value) {
+        $("#idInput").val(value);
+    }
+</script>

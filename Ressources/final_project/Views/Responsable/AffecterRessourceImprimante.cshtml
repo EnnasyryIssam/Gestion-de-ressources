@@ -1,0 +1,79 @@
+﻿@model final_project.Models.Imprimante
+
+@{
+    ViewBag.Title = "AffecterRessourceImprimante";
+    Layout = "~/Views/Shared/_ResponsableLayout.cshtml";
+}
+
+<div class="container-fluid">
+    <h4>Affecter des besoins de type <strong>imprimante</strong></h4>
+    &nbsp;
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Enseignant</th>
+                <th scope="col">Marque</th>
+                <th scope="col">Vitesse</th>
+                <th scope="col">Resolution</th>
+                <th scope="col">Etat</th>
+                <th scope="col">Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <th scope="row">1</th>
+                <th scope="row">zika</th>
+                <td>hp</td>
+                <td>18ppm</td>
+                <td>5760 x 1440</td>
+                <td><span class="badge badge-pill badge-success" style="padding:9px 15px">Accepté</span></td>
+                <td style="display:flex;align-items:center">
+                    <button type="submit" id="btn_affecter" class="btn btn-warning" data-toggle="modal" data-target="#modalAffecter">Affecter</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="modalAffecter" tabindex="-1" role="dialog" aria-hidden="true"
+     style="margin-top:60px">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Affecter la ressource</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="border:none; outline:none">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group col-md-12">
+                    <label for="code">Code</label>
+                    <input type="text" class="form-control" id="code" />
+                </div>
+                <div class="form-group col-md-12">
+                    <label for="livraison">Date de livraison</label>
+                    <input type="text" class="form-control" id="livraison" />
+                </div>
+                <div class="form-group col-md-12">
+                    <label for="garantie">Durée de garantie</label>
+                    <input type="text" class="form-control" id="garantie" />
+                </div>
+                <div class="form-group col-md-12">
+                    <label for="fourisseur">Fournisseur</label>
+                    <select id="fourisseur" class="form-control">
+                        <option selected disabled>Selectionner un fournisseur</option>
+                        <option>Fournisseru 1</option>
+                        <option>Fournisseur 2</option>
+                    </select>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+                <button type="button" class="btn btn-primary">Valider</button>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,152 @@
+﻿@model final_project.Models.Materielle
+
+@{
+    ViewBag.Title = "Ajouter Appel d'Offre";
+    Layout = "~/Views/Shared/_ResponsableLayout.cshtml";
+}
+
+<div class="container-fluid">
+    <h6>Les besoins de type <strong>ordinateur</strong></h6>
+    <table class="table" style="border:1px solid #ddd">
+        <thead>
+            <tr>
+                <th style="width:60px" scope="col">ID</th>
+                <th scope="col">Enseignant</th>
+                <th scope="col">Marque</th>
+                <th scope="col">CPU</th>
+                <th scope="col">RAM</th>
+                <th scope="col">Disque dur</th>
+                <th scope="col">Ecran</th>
+                <th scope="col">Etat</th>
+                <th scope="col">Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (ViewData["listOL"] != null)
+            {
+                foreach (var item in (List<final_project.Models.Ordinateur>)ViewData["listOL"])
+                {
+
+            <tr>
+                <th scope="row" style="width:60px">@item.Id</th>
+                <th scope="row">@item.Enseignant.Nom</th>
+                <td>@item.Marque</td>
+                <td>@item.Cpu</td>
+                <td>@item.Ram</td>
+                <td>@item.Disquedur</td>
+                <td>@item.Ecran</td>
+                <td><span class="badge badge-pill badge-primary" style="padding:9px 15px">@item.Etat</span></td>
+                <td style="display:flex; align-items:center">
+                    <button type="button" id="btn_affecter1" onclick="passData(@item.Id)" class="btn btn-warning" data-toggle="modal" data-target="#modalAffecter">Affecter</button>
+                </td>
+
+            </tr>
+                }
+            }
+
+        </tbody>
+    </table>
+
+    <h6 style="margin-top:45px">Les besoins de type <strong>imprimante</strong></h6>
+    <table class="table" style="border:1px solid #ddd">
+        <thead>
+            <tr>
+                <th style="width:60px" scope="col">ID</th>
+                <th scope="col">Enseignant</th>
+                <th scope="col">Marque</th>
+                <th scope="col">Vitesse</th>
+                <th scope="col">Resolution</th>
+                <th scope="col">Etat</th>
+                <th scope="col">Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (ViewData["listIL"] != null)
+            {
+                foreach (var item in (List<final_project.Models.Imprimante>)ViewData["listIL"])
+                {
+
+                    <tr>
+                        <th scope="row" style="width:60px">@item.Id</th>
+                        <th scope="row">@item.Enseignant.Nom</th>
+                        <td>@item.Marque</td>
+                        <td>@item.Vitesse</td>
+                        <td>@item.Resolution</td>
+                        <td><span class="badge badge-pill badge-primary" style="padding:9px 15px">@item.Etat</span></td>
+                        <td style="display:flex; align-items:center">
+                            <button type="button" id="btn_affecter" onclick="passData(@item.Id)" class="btn btn-warning" data-toggle="modal" data-target="#modalAffecter">Affecter</button>
+                        </td>
+                    </tr>
+
+                }
+            }
+
+        </tbody>
+    </table>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="modalAffecter" tabindex="-1" role="dialog" aria-hidden="true"
+     style="margin-top:60px">
+    <div class="modal-dialog" role="document">
+        @using (Html.BeginForm())
+        {
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Affecter la ressource</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="border:none; outline:none">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    
+                    @Html.EditorFor(model => model.Id, new { htmlAttributes = new { @class = "form-control input hidden", @id = "idInput" } })
+                    <div class="form-group col-md-12">
+                        <label for="code">Code</label>
+                        @Html.EditorFor(model => model.Code, new { htmlAttributes = new { @class = "form-control input" } })
+                    </div>
+                    <div class="form-group col-md-12">
+                        <label for="livraison">Date de livraison</label>
+                        @Html.EditorFor(model => model.Datelivraison, new { htmlAttributes = new { @class = "form-control input" } })
+                    </div>
+                    <div class="form-group col-md-12">
+                        <label for="garantie">Durée de garantie</label>
+                        @Html.EditorFor(model => model.Dureegarantie, new { htmlAttributes = new { @class = "form-control input" } })
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+                    <button type="submit" class="btn btn-primary">Valider</button>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+<style>
+    .hidden {
+        display: none;
+    }
+    h4 {
+        margin-bottom: 20px
+    }
+
+    tbody {
+        display: block;
+        overflow: auto;
+        overflow-y: scroll;
+        max-height: 400px
+    }
+
+        thead, tbody tr {
+            display: table;
+            width: 100%;
+            table-layout: fixed; /* even columns width , fix width of table too*/
+        }
+</style>
+
+<script>
+    function passData(value) {
+        $("#idInput").val(value);
+    }
+</script>
